@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: BEACON
   m_EditorClassIdentifier: 
   patternName: BEACON
-  patternPrefab: {fileID: 0}
+  width: 4
+  height: 4
+  patternGrid: 01000000010000000000000000000000010000000100000000000000000000000000000000000000010000000100000000000000000000000100000001000000
+  startingPosition: {x: 0, y: 0}

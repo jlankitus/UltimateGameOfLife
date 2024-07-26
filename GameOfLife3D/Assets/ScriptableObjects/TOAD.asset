@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed8eb973e6cd7014186c6ab9e4cbeab1, type: 3}
   m_Name: TOAD
   m_EditorClassIdentifier: 
-  patternName: 
-  patternPrefab: {fileID: 0}
+  patternName: TOAD
+  width: 4
+  height: 2
+  patternGrid: 0000000001000000010000000100000001000000010000000100000000000000
+  startingPosition: {x: 3, y: 3}
