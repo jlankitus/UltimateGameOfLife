@@ -72,3 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /GameOfLife3D/Library
 /GameOfLife3D/Temp
+/GameOfLife3D/Logs
+/GameOfLife3D/obj
