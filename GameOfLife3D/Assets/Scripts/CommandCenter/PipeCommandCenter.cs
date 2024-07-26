@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Pipes;
 using System.Threading;
@@ -6,8 +7,12 @@ using UnityEngine;
 
 public class PipeCommandCenter : MonoBehaviour
 {
+    [SerializeField]
+    private LifeGenerator lifeGenerator;
+
     private Thread pipeThread;
     private bool isRunning = true;
+    private ConcurrentQueue<string> commandQueue = new ConcurrentQueue<string>();
 
     void Start()
     {
@@ -31,37 +36,24 @@ public class PipeCommandCenter : MonoBehaviour
                     while ((line = reader.ReadLine()) != null)
                     {
                         Debug.Log("Received command: " + line);
-                        ProcessCommand(line);
+                        commandQueue.Enqueue(line);
                     }
                 }
             }
         }
     }
 
-    void ProcessCommand(string command)
+    void Update()
     {
-        switch (command.ToUpper())
+        while (commandQueue.TryDequeue(out string command))
         {
-            case "BEACON":
-                StartGameOfLife("BEACON");
-                break;
-            case "BLINKER":
-                StartGameOfLife("BLINKER");
-                break;
-            case "TOAD":
-                StartGameOfLife("TOAD");
-                break;
-            case "RANDOM":
-            default:
-                StartGameOfLife("RANDOM");
-                break;
+            ProcessCommand(command);
         }
     }
 
-    void StartGameOfLife(string pattern)
+    void ProcessCommand(string command)
     {
-        // TODO: actual coding challenge here!
-        Debug.Log($"Starting Game of Life with pattern: {pattern}");
+        lifeGenerator.GeneratePattern(command);
     }
 
     void OnApplicationQuit()
