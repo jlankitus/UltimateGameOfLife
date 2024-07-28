@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,6 +15,11 @@ public class LifeGenerator : MonoBehaviour
 
     [SerializeField]
     private int generations = 4;
+
+    [SerializeField]
+    private float animationTime = 1.0f; // Time between generations in seconds
+
+    private List<GameObject> activeCells = new List<GameObject>();
 
     public string GeneratePattern(string patternName)
     {
@@ -47,11 +53,59 @@ public class LifeGenerator : MonoBehaviour
 
         allGenerations += "<EOF>"; // Add a delimiter to indicate the end of the response
         Debug.Log("All generations:\n" + allGenerations);
+
+        // Call the new 3D rendering function after all generations are calculated
+        StartCoroutine(AnimateGenerations3D(parsedPattern));
+
         return allGenerations;
     }
 
     public string GetGridState()
     {
         return gridManager.GetGridState();
+    }
+
+    // New 3D Animation Functionality
+    private IEnumerator AnimateGenerations3D(LifePattern parsedPattern)
+    {
+        for (int gen = 0; gen < generations; gen++)
+        {
+            RenderGrid3D(parsedPattern);
+            yield return new WaitForSeconds(animationTime);
+            gridManager.NextGeneration();
+        }
+        RenderGrid3D(parsedPattern); // Ensure final generation is rendered
+    }
+
+    private void RenderGrid3D(LifePattern parsedPattern)
+    {
+        int[,] finalGrid = gridManager.GetGrid2DArray();
+
+        // Clear previous cells
+        foreach (var cell in activeCells)
+        {
+            Destroy(cell);
+        }
+        activeCells.Clear();
+
+        for (int x = 0; x < finalGrid.GetLength(0); x++)
+        {
+            for (int y = 0; y < finalGrid.GetLength(1); y++)
+            {
+                Vector3 position = new Vector3(x, 0, y);
+                GameObject cell;
+
+                if (finalGrid[x, y] == 1)
+                {
+                    cell = Instantiate(parsedPattern.alivePrefab, position, Quaternion.identity);
+                }
+                else
+                {
+                    cell = Instantiate(parsedPattern.deadPrefab, position, Quaternion.identity);
+                }
+
+                activeCells.Add(cell);
+            }
+        }
     }
 }

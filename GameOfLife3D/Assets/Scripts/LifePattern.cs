@@ -4,13 +4,14 @@ using UnityEngine;
 public class LifePattern : ScriptableObject
 {
     public string patternName;
-    public GameObject patternPrefab;
     public int width = 8;
     public int height = 8;
     public int[] patternGrid; // Flattened grid
     public Vector2Int startingPosition; // Specify the starting position
-
     public bool randomize;
+
+    public GameObject alivePrefab; // Prefab to instantiate for alive cells
+    public GameObject deadPrefab; // Prefab to instantiate for dead cells
 
     // Cool trick to default the patternName to the object name.
     private void OnValidate()
