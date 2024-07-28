@@ -9,29 +9,49 @@ public class LifeGenerator : MonoBehaviour
     [SerializeField]
     private LifePattern defaultPattern;
 
-    public void GeneratePattern(string patternName)
+    [SerializeField]
+    private GridManager gridManager;
+
+    [SerializeField]
+    private int generations = 4;
+
+    public string GeneratePattern(string patternName)
     {
         // Ignore case, and launch pattern, if a correct pattern name is supplied
         LifePattern pattern = patterns.Find(p => p.patternName.ToUpper() == patternName.ToUpper());
         if (pattern != null)
         {
             Debug.Log($"Generating pattern: {pattern.patternName}");
-            if (pattern.patternPrefab != null)
-            {
-                RenderPattern(pattern);
-            }
+            return RenderPattern(pattern);
         }
         // If pattern name was not supplied, or incorrectly supplied, default to RANDOM
         else
         {
             Debug.LogWarning("Invalid pattern supplied, generating default pattern: " + defaultPattern.patternName);
-            RenderPattern(defaultPattern);
+            return RenderPattern(defaultPattern);
         }
     }
 
-    public void RenderPattern(LifePattern parsedPattern)
+    public string RenderPattern(LifePattern parsedPattern)
     {
-        // TODO: replace with proper GOL logic
-        Debug.Log("Rendering " +  parsedPattern.patternName);
+        Debug.Log("Rendering " + parsedPattern.patternName);
+        gridManager.InitializeGrid(parsedPattern.GetPatternGrid2D(), parsedPattern.startingPosition);
+
+        string allGenerations = gridManager.GetGridState() + "\n";
+
+        for (int i = 0; i < generations; i++)
+        {
+            gridManager.NextGeneration();
+            allGenerations += gridManager.GetGridState() + "\n";
+        }
+
+        allGenerations += "<EOF>"; // Add a delimiter to indicate the end of the response
+        Debug.Log("All generations:\n" + allGenerations);
+        return allGenerations;
+    }
+
+    public string GetGridState()
+    {
+        return gridManager.GetGridState();
     }
 }
