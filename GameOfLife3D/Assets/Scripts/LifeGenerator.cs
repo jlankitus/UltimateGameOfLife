@@ -39,7 +39,7 @@ public class LifeGenerator : MonoBehaviour
 
         string allGenerations = gridManager.GetGridState() + "\n";
 
-        for (int i = 0; i < generations; i++)
+        for (int i = 1; i < generations; i++) // start at 1 because the initial state is the first generation
         {
             gridManager.NextGeneration();
             allGenerations += gridManager.GetGridState() + "\n";

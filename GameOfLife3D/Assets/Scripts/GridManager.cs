@@ -13,6 +13,7 @@ public class GridManager : MonoBehaviour
     private void Awake()
     {
         grid = new int[width, height];
+        Debug.Log($"Grid initialized with dimensions {width}x{height}");
     }
 
     public void InitializeGrid(int[,] initialGrid, Vector2Int startPosition)
@@ -33,10 +34,13 @@ public class GridManager : MonoBehaviour
                 grid[targetX, targetY] = initialGrid[x, y];
             }
         }
+        Debug.Log("Initialized grid:");
+        PrintGrid();
     }
 
     public void PrintGrid()
     {
+        string gridLog = "";
         for (int y = 0; y < height; y++)
         {
             string line = "";
@@ -44,9 +48,9 @@ public class GridManager : MonoBehaviour
             {
                 line += grid[x, y] == 1 ? "X " : ". ";
             }
-            Debug.Log(line);
+            gridLog += line + "\n";
         }
-        Debug.Log("        ");
+        Debug.Log(gridLog);
     }
 
     public void NextGeneration()
@@ -71,6 +75,8 @@ public class GridManager : MonoBehaviour
         }
 
         Array.Copy(newGrid, grid, newGrid.Length);
+        Debug.Log("Generated next generation:");
+        PrintGrid();
     }
 
     private int CountLiveNeighbors(int x, int y)
@@ -106,7 +112,6 @@ public class GridManager : MonoBehaviour
             }
             gridState += line.Trim() + "\n";
         }
-        gridState += "<EOF>"; // Add a delimiter to indicate the end of the response
         return gridState;
     }
 }
