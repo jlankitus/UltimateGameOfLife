@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: TOAD
   m_EditorClassIdentifier: 
   patternName: TOAD
+  patternPrefab: {fileID: 0}
   width: 4
   height: 2
   patternGrid: 0000000001000000010000000100000001000000010000000100000000000000
-  startingPosition: {x: 3, y: 3}
+  startingPosition: {x: 2, y: 3}
+  randomize: 0
