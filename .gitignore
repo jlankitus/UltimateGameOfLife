@@ -76,3 +76,6 @@ crashlytics-build.properties
 /GameOfLife3D/obj
 /GameOfLife3D/UserSettings
 /GameOfLife3D/Build
+/GOLCommander/bin
+/GOLCommander/obj
+/GOLCommander/Properties
