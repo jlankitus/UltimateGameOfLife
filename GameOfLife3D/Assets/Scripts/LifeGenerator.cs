@@ -91,7 +91,10 @@ public class LifeGenerator : MonoBehaviour
         {
             for (int y = 0; y < grid.GetLength(1); y++)
             {
-                GameObject cell = Instantiate(grid[x, y] == 1 ? parsedPattern.alivePrefab : parsedPattern.deadPrefab,
+                // Adjust the y coordinate to match the appearance of the debug output
+                int adjustedY = grid.GetLength(1) - 1 - y;
+
+                GameObject cell = Instantiate(grid[x, adjustedY] == 1 ? parsedPattern.alivePrefab : parsedPattern.deadPrefab,
                                               new Vector3(x, 0, y), Quaternion.identity, transform);
                 cell.transform.localScale = Vector3.zero;
                 coroutines.Add(ScaleCell(cell, Vector3.zero, Vector3.one, scaleTime, staggerDelay * (x * grid.GetLength(1) + y)));
