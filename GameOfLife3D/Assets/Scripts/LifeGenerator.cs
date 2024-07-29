@@ -28,13 +28,16 @@ public class LifeGenerator : MonoBehaviour
     [SerializeField]
     private float staggerDelay = 0.05f; // Delay between each cell's animation start
 
+    private List<int[,]> generationStates = new List<int[,]>();
+
     public string GeneratePattern(string patternName)
     {
-        // Clear previous cells
+        // Clear previous cells and states
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
+        generationStates.Clear();
 
         // Find the pattern
         LifePattern pattern = patterns.Find(p => p.patternName.ToUpper() == patternName.ToUpper());
@@ -53,10 +56,13 @@ public class LifeGenerator : MonoBehaviour
         gridManager.InitializeGrid(parsedPattern.GetPatternGrid2D(), parsedPattern.startingPosition);
 
         string allGenerations = gridManager.GetGridState() + "\n";
+        generationStates.Add((int[,])gridManager.GetGrid2DArray().Clone());
+
         for (int i = 1; i < generations; i++)
         {
             gridManager.NextGeneration();
             allGenerations += gridManager.GetGridState() + "\n";
+            generationStates.Add((int[,])gridManager.GetGrid2DArray().Clone());
         }
 
         allGenerations += "<EOF>";
@@ -67,20 +73,18 @@ public class LifeGenerator : MonoBehaviour
 
     private IEnumerator AnimateGenerations3D(LifePattern parsedPattern)
     {
-        for (int gen = 0; gen < generations; gen++)
+        for (int gen = 0; gen < generationStates.Count; gen++)
         {
             Debug.Log($"Rendering generation {gen}");
             yield return StartCoroutine(FadeOutCells());
-            gridManager.NextGeneration();
-            yield return StartCoroutine(FadeInCells(parsedPattern));
+            yield return StartCoroutine(FadeInCells(parsedPattern, generationStates[gen]));
             yield return new WaitForSeconds(animationTime);
         }
     }
 
-    private IEnumerator FadeInCells(LifePattern parsedPattern)
+    private IEnumerator FadeInCells(LifePattern parsedPattern, int[,] grid)
     {
         Debug.Log("Fading in cells...");
-        int[,] grid = gridManager.GetGrid2DArray();
         List<IEnumerator> coroutines = new List<IEnumerator>();
 
         for (int x = 0; x < grid.GetLength(0); x++)
