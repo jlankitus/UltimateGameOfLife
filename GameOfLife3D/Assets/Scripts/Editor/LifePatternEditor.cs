@@ -12,6 +12,8 @@ public class LifePatternEditor : Editor
         lifePattern.startingPosition = EditorGUILayout.Vector2IntField("Starting Position", lifePattern.startingPosition);
         lifePattern.width = EditorGUILayout.IntField("Width", lifePattern.width);
         lifePattern.height = EditorGUILayout.IntField("Height", lifePattern.height);
+        lifePattern.alivePrefab = (GameObject)EditorGUILayout.ObjectField("Alive Prefab", lifePattern.alivePrefab, typeof(GameObject), false);
+        lifePattern.deadPrefab = (GameObject)EditorGUILayout.ObjectField("Dead Prefab", lifePattern.deadPrefab, typeof(GameObject), false);
 
         if (lifePattern.patternGrid == null || lifePattern.patternGrid.Length != lifePattern.width * lifePattern.height)
         {

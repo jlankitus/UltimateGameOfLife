@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: BEACON
   m_EditorClassIdentifier: 
   patternName: BEACON
-  patternPrefab: {fileID: 0}
   width: 4
   height: 4
   patternGrid: 00000000000000000100000001000000000000000000000001000000010000000100000001000000000000000000000001000000010000000000000000000000
   startingPosition: {x: 3, y: 1}
   randomize: 0
+  alivePrefab: {fileID: 9092533823991991071, guid: 555f892913b6d9a41b5b01bfa52217e9, type: 3}
+  deadPrefab: {fileID: 4084131441278744097, guid: c20724d9c362a1349ad5f143f52e5657, type: 3}

@@ -114,4 +114,8 @@ public class GridManager : MonoBehaviour
         }
         return gridState;
     }
+    public int[,] GetGrid2DArray()
+    {
+        return grid;
+    }
 }

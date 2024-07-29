@@ -39,7 +39,6 @@ namespace gol
                 // Connect to the named pipe server
                 using (var pipeClient = new NamedPipeClientStream(".", "GOLPipeCommandCenter", PipeDirection.InOut))
                 {
-                    Console.WriteLine("Connecting to server...");
                     pipeClient.Connect(2000);
 
                     using (var writer = new StreamWriter(pipeClient))
@@ -49,7 +48,6 @@ namespace gol
 
                         // Send command
                         writer.WriteLine(command);
-                        Console.WriteLine($"Command sent: {command}");
 
                         // Read response
                         string response = string.Empty;
@@ -59,14 +57,13 @@ namespace gol
                             response += line + Environment.NewLine;
                         }
 
-                        Console.WriteLine("Response received:");
                         Console.WriteLine(response);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                // Console.WriteLine($"Error: {ex.Message}");
             }
         }
     }

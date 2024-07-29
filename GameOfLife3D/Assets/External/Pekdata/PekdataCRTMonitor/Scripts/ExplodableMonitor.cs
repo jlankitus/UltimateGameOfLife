@@ -17,7 +17,19 @@ public class ExplodableMonitor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        broken = true;
+        screenOff.SetActive(false);
+        screenOn.SetActive(false);
+        shards.SetActive(true);
+        Rigidbody[] shardRBs = GetComponentsInChildren<Rigidbody>();
+        screenExplosionParticleSystem.SetActive(true);
+        foreach (Rigidbody shardRB in shardRBs)
+        {
+            float randomRotationX = Random.Range(-20, 20);
+            float randomRotationY = Random.Range(-20, 20);
+            float randomRotationZ = Random.Range(-20, 20);
+            shardRB.transform.Rotate(randomRotationX, randomRotationY, randomRotationZ);
+        }
     }
 
     void OnCollisionEnter(Collision col){
