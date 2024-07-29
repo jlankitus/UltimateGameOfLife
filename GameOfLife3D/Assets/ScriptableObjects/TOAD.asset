@@ -18,5 +18,5 @@ MonoBehaviour:
   patternGrid: 0000000001000000010000000100000001000000010000000100000000000000
   startingPosition: {x: 2, y: 3}
   randomize: 0
-  alivePrefab: {fileID: 4084131441278744097, guid: c20724d9c362a1349ad5f143f52e5657, type: 3}
-  deadPrefab: {fileID: 6445657395948102325, guid: f52e4731ba5177542801d19baac1dbce, type: 3}
+  alivePrefab: {fileID: 1644373995442134, guid: 0187bdd962557471faee34c9b592135c, type: 3}
+  deadPrefab: {fileID: 4084131441278744097, guid: c20724d9c362a1349ad5f143f52e5657, type: 3}
