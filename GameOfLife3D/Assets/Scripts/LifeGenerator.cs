@@ -35,17 +35,17 @@ public class LifeGenerator : MonoBehaviour
         if (pattern != null)
         {
             Debug.Log($"Generating pattern: {pattern.patternName}");
-            return RenderPattern(pattern);
+            return RenderPatternText(pattern);
         }
         // If pattern name was not supplied, or incorrectly supplied, default to RANDOM
         else
         {
             Debug.LogWarning("Invalid pattern supplied, generating default pattern: " + defaultPattern.patternName);
-            return RenderPattern(defaultPattern);
+            return RenderPatternText(defaultPattern);
         }
     }
 
-    public string RenderPattern(LifePattern parsedPattern)
+    public string RenderPatternText(LifePattern parsedPattern)
     {
         Debug.Log("Rendering " + parsedPattern.patternName);
         gridManager.InitializeGrid(parsedPattern.GetPatternGrid2D(), parsedPattern.startingPosition);
@@ -72,23 +72,24 @@ public class LifeGenerator : MonoBehaviour
         return gridManager.GetGridState();
     }
 
-    // New 3D Animation Functionality
     private IEnumerator AnimateGenerations3D(LifePattern parsedPattern)
     {
         // Fade in all cells for the first generation
         yield return StartCoroutine(FadeInCells(parsedPattern));
 
-        for (int gen = 1; gen < generations; gen++)
+        for (int gen = 1; gen <= generations; gen++)
         {
             yield return StartCoroutine(RenderGrid3D(parsedPattern));
             yield return new WaitForSeconds(animationTime);
             gridManager.NextGeneration();
         }
-        yield return StartCoroutine(RenderGrid3D(parsedPattern)); // Ensure final generation is rendered
+        
+        // yield return StartCoroutine(RenderGrid3D(parsedPattern)); // Ensure final generation is rendered
     }
 
     private IEnumerator FadeInCells(LifePattern parsedPattern)
     {
+        Debug.LogError("fading in cells...");
         int[,] initialGrid = gridManager.GetGrid2DArray();
 
         for (int x = 0; x < initialGrid.GetLength(0); x++)
@@ -154,6 +155,7 @@ public class LifeGenerator : MonoBehaviour
                 }
                 else
                 {
+                    Debug.LogError("not in map!");
                     if (isAlive)
                     {
                         cell = Instantiate(parsedPattern.alivePrefab, new Vector3(x, 0, y), Quaternion.identity);
