@@ -13,7 +13,7 @@ It is separated into two projects:
 2. GameOfLife3D - Unity 3D project that is launched from GOLCommander
 
 Usage
-"gol <pattern>"
+"gol (pattern)"
 
 Powershell Testing Commands
 
