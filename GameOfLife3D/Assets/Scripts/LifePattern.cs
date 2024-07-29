@@ -37,6 +37,8 @@ public class LifePattern : ScriptableObject
                 grid2D[x, y] = patternGrid[y * width + x];
             }
         }
+
+        if (patternName == "RANDOM") RandomizeGrid();
         return grid2D;
     }
 

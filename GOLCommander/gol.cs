@@ -10,13 +10,21 @@ namespace gol
     {
         static void Main(string[] args)
         {
+            string command;
             if (args.Length == 0)
             {
-                Console.WriteLine("Usage: gol <pattern>");
-                return;
+                command = "RANDOM";
+            }
+            else if(args.Length == 1) 
+            {
+                command = args[0];
+            }
+            else
+            {
+                Console.WriteLine("Alas, you cannot fool me, RANDOM TIME!");
+                command = "RANDOM";
             }
 
-            string command = args[0];
             string unityAppPath = Path.Combine(Directory.GetCurrentDirectory(), "GameOfLife3D.exe");
             string unityProcessName = "GameOfLife3D"; // Without .exe
 
