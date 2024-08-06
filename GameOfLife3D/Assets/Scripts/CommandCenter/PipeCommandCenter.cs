@@ -5,10 +5,18 @@ using System.IO.Pipes;
 using System.Threading;
 using UnityEngine;
 
+// This is our command center class that allows us to talk and listen to other programs using pipes
+// The pipe name "GOLPipeCommandCenter" must match
+// https://www.youtube.com/watch?v=nFnomZDaCC8&ab_channel=CodeMonkey
+
 public class PipeCommandCenter : MonoBehaviour
 {
+    // Life Generator converts raw data sent through the pipe into animated 3D
     [SerializeField]
     private LifeGenerator lifeGenerator;
+
+    [SerializeField]
+    private string pipeServerName = "GOLPipeCommandCenter";
 
     private Thread pipeThread;
     private bool isRunning = true;
@@ -16,6 +24,8 @@ public class PipeCommandCenter : MonoBehaviour
     private NamedPipeServerStream pipeServer;
     private StreamWriter writer;
 
+    // Run the pipe server as a background thread. This allows us to take multiple commands without waiting
+    // on the main thread.
     void Start()
     {
         pipeThread = new Thread(StartNamedPipeServer);
@@ -27,7 +37,8 @@ public class PipeCommandCenter : MonoBehaviour
     {
         while (isRunning)
         {
-            using (pipeServer = new NamedPipeServerStream("GOLPipeCommandCenter", PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous))
+            // InOut pipeserver to send and receive messages
+            using (pipeServer = new NamedPipeServerStream(pipeServerName, PipeDirection.InOut, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous))
             {
                 Debug.Log("Named pipe server started, waiting for connection...");
                 pipeServer.WaitForConnection();
@@ -47,6 +58,8 @@ public class PipeCommandCenter : MonoBehaviour
         }
     }
 
+    // Process all commands every frame.
+    // Could opt to process one command per frame if 'ProcessCommand' became more expensive or running on low end hardware
     void Update()
     {
         while (commandQueue.TryDequeue(out string command))
@@ -62,6 +75,7 @@ public class PipeCommandCenter : MonoBehaviour
         return lifeGenerator.GeneratePattern(command);
     }
 
+    // Sends the grid state back through the pipe (to our console app or command line)
     void SendGridState(string gridState)
     {
         try
@@ -76,7 +90,7 @@ public class PipeCommandCenter : MonoBehaviour
         catch (IOException ex)
         {
             Debug.LogError("IOException during SendGridState: " + ex.Message);
-            // Handle the broken pipe case here (e.g., close the pipe, notify the client, etc.)
+            // TODO: Handle the broken pipe case here
         }
     }
 
