@@ -6,40 +6,36 @@ public class LifeGenerator : MonoBehaviour
 {
     [SerializeField]
     private List<LifePattern> patterns;
-
     [SerializeField]
     private LifePattern defaultPattern;
-
     [SerializeField]
     private GridManager gridManager;
-
     [SerializeField]
     private int generations = 4;
 
+    // 'animationTime' between generations, 'scaleTime' for scaling transition,
+    // 'fadeCurve' adds style, linear is out of fashion. Small stagger delay for even more style points
     [SerializeField]
-    private float animationTime = 1.0f; // Time between generations in seconds
-
+    private float animationTime = 1.0f;
+    private float scaleTime = 0.5f;
     [SerializeField]
-    private float scaleTime = 0.5f; // Time for scaling transition
-
-    [SerializeField]
-    private AnimationCurve fadeCurve; // Animation curve for fade
-
+    private AnimationCurve fadeCurve;
     [SerializeField]
     private float staggerDelay = 0.05f; // Delay between each cell's animation start
 
-    private List<int[,]> generationStates = new List<int[,]>();
+    private List<int[,]> generationStates = new List<int[,]>(); // historical record of generations, used for animating
 
     public string GeneratePattern(string patternName)
     {
         // Clear previous cells and states
+        // TODO: use object pooling if moving to mobile
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);
         }
         generationStates.Clear();
 
-        // Find the pattern
+        // Find the pattern, use default if not found
         LifePattern pattern = patterns.Find(p => p.patternName.ToUpper() == patternName.ToUpper());
         if (pattern == null)
         {
@@ -51,6 +47,9 @@ public class LifeGenerator : MonoBehaviour
         return RenderPatternText(pattern);
     }
 
+    // Initialize the grid with a 'LifePattern' (random, blinker, beacon, etc.)
+    // Generate each generation, and capture it in 'generationStates'
+    // Return grid as a string, then kick off the animation sequence
     public string RenderPatternText(LifePattern parsedPattern)
     {
         gridManager.InitializeGrid(parsedPattern.GetPatternGrid2D(), parsedPattern.startingPosition);
