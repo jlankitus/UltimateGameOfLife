@@ -109,4 +109,16 @@ public class PipeCommandCenter : MonoBehaviour
         }
         pipeThread.Abort();
     }
+
+    [ContextMenu("GenerateToad")]
+    public void GenerateToad()
+    {
+        lifeGenerator.GeneratePattern("TOAD");
+    }
+
+    [ContextMenu("GenerateRandom")]
+    public void GenerateRandom()
+    {
+        lifeGenerator.GeneratePattern("RANDOM");
+    }
 }
