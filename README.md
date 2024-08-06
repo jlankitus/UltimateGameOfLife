@@ -49,12 +49,6 @@ This has all the fun core GOL algorithms, searching our neighbors for who is ali
 
 ### Powershell Testing Commands [devs only]
 
-powershell -Command "$command = 'BEACON'; $pipe = new-object System.IO.Pipes.NamedPipeClientStream('.', 'GOLPipeCommandCenter', [System.IO.Pipes.PipeDirection]::InOut); $pipe.Connect(2000); $writer = new-object System.IO.StreamWriter($pipe); $reader = new-object System.IO.StreamReader($pipe); $writer.WriteLine($command); $writer.Flush(); $response = ''; while (($line = $reader.ReadLine()) -ne '<EOF>') { $response += $line + [Environment]::NewLine }; $pipe.Close(); Write-Host 'Command sent: ' $command; Write-Host 'Response received: '; Write-Host $response"
-
-powershell -Command "$command = 'BLINKER'; $pipe = new-object System.IO.Pipes.NamedPipeClientStream('.', 'GOLPipeCommandCenter', [System.IO.Pipes.PipeDirection]::InOut); $pipe.Connect(2000); $writer = new-object System.IO.StreamWriter($pipe); $reader = new-object System.IO.StreamReader($pipe); $writer.WriteLine($command); $writer.Flush(); $response = ''; while (($line = $reader.ReadLine()) -ne '<EOF>') { $response += $line + [Environment]::NewLine }; $pipe.Close(); Write-Host 'Command sent: ' $command; Write-Host 'Response received: '; Write-Host $response"
-
-powershell -Command "$command = 'RANDOM'; $pipe = new-object System.IO.Pipes.NamedPipeClientStream('.', 'GOLPipeCommandCenter', [System.IO.Pipes.PipeDirection]::InOut); $pipe.Connect(2000); $writer = new-object System.IO.StreamWriter($pipe); $reader = new-object System.IO.StreamReader($pipe); $writer.WriteLine($command); $writer.Flush(); $response = ''; while (($line = $reader.ReadLine()) -ne '<EOF>') { $response += $line + [Environment]::NewLine }; $pipe.Close(); Write-Host 'Command sent: ' $command; Write-Host 'Response received: '; Write-Host $response"
-
-powershell -Command "$command = 'TOAD'; $pipe = new-object System.IO.Pipes.NamedPipeClientStream('.', 'GOLPipeCommandCenter', [System.IO.Pipes.PipeDirection]::InOut); $pipe.Connect(2000); $writer = new-object System.IO.StreamWriter($pipe); $reader = new-object System.IO.StreamReader($pipe); $writer.WriteLine($command); $writer.Flush(); $response = ''; while (($line = $reader.ReadLine()) -ne '<EOF>') { $response += $line + [Environment]::NewLine }; $pipe.Close(); Write-Host 'Command sent: ' $command; Write-Host 'Response received: '; Write-Host $response"
+https://docs.google.com/document/d/1ruWgaD_D_1hcKcbUnj1jTCaatVWqh8ZszWWNZ6r72jg/edit?usp=sharing
 
 
